@@ -12,7 +12,7 @@ var babelify = require('babelify');
 var cssSrc = ['client/*.css'];
 var cssWatch = ['client/**/*.css'];
 
-var jsSrc = ['client/*.js'];
+var jsSrc = ['client/index.js'];
 var jsWatch = ['client/**/*.js'];
 
 function processCss () {
