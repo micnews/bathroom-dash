@@ -6,11 +6,11 @@ export default (opts) => {
 
   const spriteObject = {
     context: opts.context,
-    width: opts.width,
+    width: opts.width * numberOfFrames,
     height: opts.height,
     image: opts.image,
     loop: opts.loop,
-    render () {
+    update () {
       spriteObject.context.clearRect(0, 0, spriteObject.width, spriteObject.height);
       spriteObject.context.drawImage(
         spriteObject.image,
@@ -23,8 +23,7 @@ export default (opts) => {
         spriteObject.width / numberOfFrames,
         spriteObject.height
       );
-    },
-    update () {
+
       tickCount += 1;
       if (tickCount >= ticksPerFrame) {
         tickCount = 0;
@@ -34,6 +33,11 @@ export default (opts) => {
           frameIndex = 0;
         }
       }
+    },
+    changeSprite (newOpts) {
+      Object.keys(newOpts).forEach((key) => {
+        spriteObject[key] = newOpts[key];
+      });
     }
   };
 

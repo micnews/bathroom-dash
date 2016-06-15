@@ -5,28 +5,37 @@ const main = document.querySelector('.main');
 const buttons = main.querySelector('.main');
 const canvas = main.querySelector('.canvas');
 
-const coinImage = new Image();
-coinImage.src = '/images/coin-sprite-animation-sprite-sheet.png';
+const runnerImage = new Image();
+runnerImage.src = '/images/running.png';
+
+const runner = createSprite({
+  context: canvas.getContext('2d'),
+  width: 212,
+  height: 294,
+  numberOfFrames: 5,
+  image: runnerImage,
+  ticksPerFrame: 8,
+  loop: true
+});
+
+let onscreenSprites = [runner];
 
 function gameLoop () {
   window.requestAnimationFrame(gameLoop);
 
-  coin.update();
-  coin.render();
+  onscreenSprites.forEach((object) => {
+    object.update();
+  });
 }
 
-const coin = createSprite({
-  context: canvas.getContext('2d'),
-  width: 440,
-  height: 40,
-  numberOfFrames: 10,
-  image: coinImage,
-  ticksPerFrame: 4,
-  loop: true
-});
-
-coinImage.addEventListener('load', () => {
-  gameLoop();
+onscreenSprites.forEach((sprite) => {
+  let loadedSprites = 0;
+  sprite.image.addEventListener('load', () => {
+    loadedSprites++;
+    if (loadedSprites === onscreenSprites.length) {
+      gameLoop();
+    }
+  });
 });
 
 const initState = Immutable({
