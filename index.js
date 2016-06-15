@@ -7,6 +7,7 @@ app.get('/', function (req, res) {
 });
 
 app.use(express.static('dist'));
+app.use(express.static('assets'));
 
 var portNumber = 8000;
 app.listen(process.env.PORT || portNumber, function () {

@@ -30,7 +30,8 @@
   },
   "homepage": "https://github.com/micnews/bathroom-dash#readme",
   "dependencies": {
-    "express": "^4.13.4"
+    "express": "^4.13.4",
+    "seamless-immutable": "^6.1.0"
   },
   "devDependencies": {
     "@mic/postcss": "^3.1.0",
