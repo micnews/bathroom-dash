@@ -1,45 +1,67 @@
-import Immutable from 'seamless-immutable';
 import createSprite from './create-sprite';
 
 const main = document.querySelector('.main');
-const buttons = main.querySelector('.main');
+const buttons = main.querySelector('.buttons');
 const canvas = main.querySelector('.canvas');
+const context = canvas.getContext('2d');
 
-const runnerImage = new Image();
-runnerImage.src = '/images/running.png';
+const speedCoefficient = 4;
 
-const runner = createSprite({
-  context: canvas.getContext('2d'),
-  width: 212,
-  height: 294,
+const transRunningImage = new Image();
+transRunningImage.src = '/images/trans/running.png';
+
+const transRunner = createSprite({
+  context,
+  imageWidth: 212,
+  imageHeight: 294,
   numberOfFrames: 5,
-  image: runnerImage,
+  image: transRunningImage,
   ticksPerFrame: 8,
   loop: true
 });
+transRunner.stationary = true;
+transRunner.player = true;
 
-let onscreenSprites = [runner];
+const barrier = createSprite({
+  context,
+  imageWidth: 212,
+  imageHeight: 294,
+  numberOfFrames: 5,
+  image: transRunningImage,
+  ticksPerFrame: 8,
+  loop: true,
+  xpos: canvas.width,
+  ypos: 0
+});
 
-function gameLoop () {
-  window.requestAnimationFrame(gameLoop);
+let onscreenSprites = [transRunner, barrier];
+let speed = 1;
+let distance = 0;
+let runnerY = 0;
 
-  onscreenSprites.forEach((object) => {
-    object.update();
+function animationLoop () {
+  window.requestAnimationFrame(animationLoop);
+  canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+  onscreenSprites.forEach((sprite) => {
+    const x = sprite.stationary ? undefined : -speed;
+    const y = sprite.player ? runnerY : undefined;
+    sprite.update({ x, y });
   });
 }
 
+setInterval(() => {
+  distance += 1;
+  speed = (Math.floor(distance / 100) + 1) * speedCoefficient;
+}, 100);
+
+let loadedSprites = 0;
 onscreenSprites.forEach((sprite) => {
-  let loadedSprites = 0;
   sprite.image.addEventListener('load', () => {
     loadedSprites++;
     if (loadedSprites === onscreenSprites.length) {
-      gameLoop();
+      animationLoop();
     }
   });
-});
-
-const initState = Immutable({
-
 });
 
 const lockScroll = () => {

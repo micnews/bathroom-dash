@@ -1,43 +1,46 @@
-export default (opts) => {
-  const numberOfFrames = opts.numberOfFrames || 1;
-  let frameIndex = 0;
-  let tickCount = 0;
-  let ticksPerFrame = opts.ticksPerFrame || 1;
-
+export default ({ context, height, width, imageHeight, imageWidth, xpos = 0, ypos = 0, image, loop, numberOfFrames = 1, ticksPerFrame = 1 }) => {
   const spriteObject = {
-    context: opts.context,
-    width: opts.width * numberOfFrames,
-    height: opts.height,
-    image: opts.image,
-    loop: opts.loop,
-    update () {
-      spriteObject.context.clearRect(0, 0, spriteObject.width, spriteObject.height);
+    context: context,
+    imageWidth,
+    imageHeight,
+    width: width || imageWidth,
+    height: height || imageHeight,
+    xpos,
+    ypos,
+    ticksPerFrame,
+    numberOfFrames,
+    image: image,
+    loop: loop,
+    frameIndex: 0,
+    tickCount: 0,
+    update ({ x = 0, y = 0, absolute = false }) {
+      spriteObject.xpos = absolute ? x : spriteObject.xpos + x;
+      spriteObject.ypos = absolute ? y : spriteObject.ypos + y;
+
       spriteObject.context.drawImage(
         spriteObject.image,
-        frameIndex * spriteObject.width / numberOfFrames,
+        spriteObject.frameIndex * spriteObject.imageWidth,
         0,
-        spriteObject.width / numberOfFrames,
-        spriteObject.height,
-        0,
-        0,
-        spriteObject.width / numberOfFrames,
+        spriteObject.imageWidth,
+        spriteObject.imageHeight,
+        spriteObject.xpos,
+        spriteObject.ypos,
+        spriteObject.width,
         spriteObject.height
       );
 
-      tickCount += 1;
-      if (tickCount >= ticksPerFrame) {
-        tickCount = 0;
-        if (frameIndex < numberOfFrames - 1) {
-          frameIndex += 1;
+      // console.log(spriteObject.xpos);
+      console.log(spriteObject.ypos);
+
+      spriteObject.tickCount += 1;
+      if (spriteObject.tickCount >= spriteObject.ticksPerFrame) {
+        spriteObject.tickCount = 0;
+        if (spriteObject.frameIndex < spriteObject.numberOfFrames - 1) {
+          spriteObject.frameIndex += 1;
         } else if (spriteObject.loop) {
-          frameIndex = 0;
+          spriteObject.frameIndex = 0;
         }
       }
-    },
-    changeSprite (newOpts) {
-      Object.keys(newOpts).forEach((key) => {
-        spriteObject[key] = newOpts[key];
-      });
     }
   };
 
