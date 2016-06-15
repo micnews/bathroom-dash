@@ -1,0 +1,27 @@
+{
+  "name": "bathroom-dash",
+  "version": "1.0.0",
+  "description": "Mic's GEN Hackathon newsgame.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/micnews/bathroom-dash.git"
+  },
+  "keywords": [
+    "transgender",
+    "trans",
+    "cisgender",
+    "cis",
+    "bathroom",
+    "restroom"
+  ],
+  "author": "Mic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/micnews/bathroom-dash/issues"
+  },
+  "homepage": "https://github.com/micnews/bathroom-dash#readme"
+}
