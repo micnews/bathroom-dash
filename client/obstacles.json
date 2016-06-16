@@ -1,7 +1,9 @@
 [
   {
     "name": "Verbal abuse while riding public transportation",
-    "image": "",
+    "image": {
+      "src": "/images/obstacles/verbal-abuse.png"
+    },
     "position": "bottom",
     "description": "Pearl Love, a trans woman in NYC, recorded and uploaded a woman berating her on the subway, claiming the site of Love is indecent and offensive for her child to see.",
     "story": "https://mic.com/articles/142537",
@@ -12,7 +14,9 @@
   },
   {
     "name": "Wearing boxer briefs",
-    "image": "",
+    "image": {
+      "src": "/images/obstacles/briefs.png"
+    },
     "position": "bottom",
     "description": "Trans beauty queen Jai Dará Latto lost her crown after footage came out of her wearing boxer briefs around her house. The judge rescinded her title claiming Latto is not a \"full-time woman\" because she wears boxers.",
     "story": "https://mic.com/articles/135849",
@@ -23,7 +27,9 @@
   },
   {
     "name": "Dysfunction in hospital/doctors office",
-    "image": "",
+    "image": {
+      "src": "/images/obstacles/doctor.png"
+    },
     "position": "bottom",
     "description": "Trans woman and activists Alesha died in a hospital in Peshawar, Pakistan after doctors failed to help her because they could not decide whether to treat her in the male or female ward.",
     "story": "https://mic.com/articles/144405",
@@ -34,7 +40,9 @@
   },
   {
     "name": "Airbnb host rejects trans tenants",
-    "image": "",
+    "image": {
+      "src": "/images/obstacles/bed.png"
+    },
     "position": "bottom",
     "description": "An Airbnb host rejected Shadi Petosky, a trans woman who applied to stay her home, because the host didn’t want her son \"to feel discomfort in his own home.\"",
     "story": "https://mic.com/articles/145418",
@@ -45,7 +53,9 @@
   },
   {
     "name": "Governor Pat McCrory and HB2",
-    "image": "",
+    "image": {
+      "src": "/images/obstacles/nc.png"
+    },
     "position": "bottom",
     "description": "In March, McCrory passed House Bill 2, a policy that bans individuals in North Carolina from using public bathrooms that do not correspond to their biological sex. HB2 also permits the NC state government to prevent cities from passing non-discrimination legislation.",
     "story": "http://edition.cnn.com/2016/03/23/politics/north-carolina-gender-bathrooms-bill/",
@@ -56,7 +66,9 @@
   },
   {
     "name": "Bathroom bombing during Target transgender boycott",
-    "image": "",
+    "image": {
+      "src": "/images/obstacles/bomb.png"
+    },
     "position": "bottom",
     "description": "In Illinois.",
     "story": "https://mic.com/articles/145804",
@@ -67,7 +79,9 @@
   },
   {
     "name": "Fired for being trans",
-    "image": "",
+    "image": {
+      "src": "/images/obstacles/office.png"
+    },
     "position": "bottom",
     "description": "Up to 47% of transgender people report that they've been unfairly fired or denied employment based on how they identify. Up to 76% report workplace harassment, and trans individuals are twice as likely to be unemployed.",
     "story": "https://mic.com/articles/136452",

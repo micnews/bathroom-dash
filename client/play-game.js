@@ -25,14 +25,14 @@ function play () {
   transRunningImage.src = '/images/trans/running.png';
   const transRunner = createSprite({
     context,
-    imageWidth: 223,
-    imageHeight: 327,
+    imageWidth: 250,
+    imageHeight: 341,
     width: 200,
     height: 300,
     numberOfFrames: 9,
     image: transRunningImage,
     ticksPerFrame: 6,
-    xPos: 15,
+    xPos: 50,
     yPos: canvas.height - 300 - ground,
     loop: true
   });
@@ -40,8 +40,8 @@ function play () {
 
   const barrier = createSprite({
     context,
-    imageWidth: 223,
-    imageHeight: 327,
+    imageWidth: 250,
+    imageHeight: 341,
     numberOfFrames: 9,
     image: transRunningImage,
     ticksPerFrame: 10,
@@ -52,7 +52,8 @@ function play () {
 
   let obstacles = [barrier];
   let cisRunners = [];
-  let startingSprites = [transRunner].concat(obstacles).concat(cisRunners);
+  let bathroomSigns = [];
+  let startingSprites = [transRunner].concat(obstacles).concat(cisRunners).concat(bathroomSigns);
   let distance = 0;
   function getLevel () {
     return (Math.floor(distance / 100) + 1) / 2;
@@ -77,28 +78,46 @@ function play () {
   function animationLoop () {
     animationLoopId = window.requestAnimationFrame(animationLoop);
     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-    transRunner.update({ y: -runnerY, absolute: true });
+    bathroomSigns.forEach((sprite, idx) => {
+      sprite.update({ x: -getSpeed() / 2 });
+      if (sprite.xPos + sprite.width < 0) {
+        bathroomSigns.splice(idx, 1);
+      }
+    });
     cisRunners.forEach((sprite, idx) => {
       sprite.update({ x: sprite.speed });
       if (sprite.xPos > canvas.width) {
         cisRunners.splice(idx, 1);
       }
     });
-    obstacles.forEach((sprite) => {
+    obstacles.forEach((sprite, idx) => {
+      sprite.update({ x: -getSpeed() });
       if (sprite.xPos + sprite.width < 0) {
-        obstacles.splice(obstacles.indexOf(sprite), 1);
-      } else {
-        sprite.update({ x: -getSpeed() });
+        obstacles.splice(idx, 1);
       }
     });
+    transRunner.update({ y: -runnerY, absolute: true });
+
     if (detectCollisions()) {
       die();
       return;
     }
   }
 
+  function nextLevel () {
+    console.log('new level');
+    if (transRunner.ticksPerFrame > 1) {
+      transRunner.ticksPerFrame -= 1;
+    }
+  }
+
   function updateDistance () {
+    var currentLevel = getLevel();
     distance += 1;
+    var newLevel = getLevel();
+    if (newLevel > currentLevel) {
+      nextLevel();
+    }
     overlay.querySelector('.score').innerHTML = distance;
   }
 
@@ -108,16 +127,19 @@ function play () {
     if (Math.random() >= cisChance) {
       const gender = (Math.random() >= 0.5 ? 'female' : 'male');
       const speed = ((Math.random() - 0.5) * 10) + 10;
-      const size = (Math.random() - 0.5) * 100;
-      const newHeight = 327 + size;
-      const newWidth = 223 + size;
+      // const size = (Math.random() - 0.5) * 100;
+      // const newHeight = 327 + size;
+      // const newWidth = 223 + size;
+      const size = 100;
+      const newHeight = 300;
+      const newWidth = 200;
 
       const cisRunningImage = new Image();
       cisRunningImage.src = '/images/cis/running-' + gender + '.png';
       const cisRunner = createSprite({
         context,
-        imageWidth: 223,
-        imageHeight: 327,
+        imageWidth: gender === 'female' ? 250 : 223,
+        imageHeight: gender === 'female' ? 327 : 327,
         width: newWidth,
         height: newHeight,
         numberOfFrames: 9,
@@ -134,6 +156,24 @@ function play () {
   }
 
   const cisRunnersInterval = setInterval(generateCisRunner, 1000);
+
+  function generateBathroomSign () {
+    const bathroomSignImage = new Image();
+    bathroomSignImage.src = '/images/misc/bathroom-sign.png';
+    const bathroomSign = createSprite({
+      context,
+      imageWidth: 127,
+      imageHeight: 167,
+      numberOfFrames: 1,
+      image: bathroomSignImage,
+      xPos: canvas.width + 127,
+      yPos: 100
+    });
+
+    bathroomSigns.push(bathroomSign);
+  }
+
+  const bathroomSignsInterval = setInterval(generateBathroomSign, 5000);
 
   let loadedSprites = 0;
   startingSprites.forEach((sprite) => {
@@ -175,6 +215,7 @@ function play () {
     clearInterval(runningInterval);
     clearInterval(actionInterval);
     clearInterval(cisRunnersInterval);
+    clearInterval(bathroomSignsInterval);
     clearTimeout(actionTimeout);
     window.cancelAnimationFrame(animationLoopId);
     play();

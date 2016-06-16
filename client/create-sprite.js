@@ -35,13 +35,15 @@ export default ({ context, height, width, imageHeight, imageWidth, xPos = 0, yPo
         spriteObject.height
       );
 
-      spriteObject.tickCount += 1;
-      if (spriteObject.tickCount >= spriteObject.ticksPerFrame) {
-        spriteObject.tickCount = 0;
-        if (spriteObject.frameIndex < spriteObject.numberOfFrames - 1) {
-          spriteObject.frameIndex += 1;
-        } else if (spriteObject.loop) {
-          spriteObject.frameIndex = 0;
+      if (spriteObject.numberOfFrames > 1) {
+        spriteObject.tickCount += 1;
+        if (spriteObject.tickCount >= spriteObject.ticksPerFrame) {
+          spriteObject.tickCount = 0;
+          if (spriteObject.frameIndex < spriteObject.numberOfFrames - 1) {
+            spriteObject.frameIndex += 1;
+          } else if (spriteObject.loop) {
+            spriteObject.frameIndex = 0;
+          }
         }
       }
     },
