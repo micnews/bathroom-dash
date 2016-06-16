@@ -1,8 +1,9 @@
 import createSprite from './create-sprite';
 import gameOver from './game-over';
 import obstacleList from './obstacles.json';
-
-const mobile = true;
+import MobileDetect from 'mobile-detect';
+const md = new MobileDetect(window.navigator.userAgent);
+const mobile = !!(md.mobile());
 
 const main = document.querySelector('.main');
 const buttons = main.querySelector('.buttons');
@@ -17,19 +18,22 @@ const jumpHeight = 450;
 const groundPx = 125;
 const ground = groundPx * (canvas.height / parseInt(window.getComputedStyle(canvas).height, 10));
 const cisChance = 0.5;
+const obstacleChance = 0.3;
+const obstacleTime = 1500;
+const obstacleLimit = 3;
 
 let actionInterval;
 let actionTimeout;
 let animationLoopId;
 
-function shuffle(array) {
-  for (var i = array.length - 1; i > 0; i--) {
+function shuffle (arr) {
+  for (var i = arr.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
-    var temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
+    var temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
   }
-  return array;
+  return arr;
 }
 
 shuffle(obstacleList);
@@ -107,7 +111,6 @@ function play () {
         obstacles.splice(idx, 1);
         obstacleCount += 1;
         overlay.querySelector('.score').innerHTML = obstacleCount;
-        generateObstacle();
       }
     });
     transRunner.update({ y: -runnerY, absolute: true });
@@ -138,6 +141,10 @@ function play () {
   const runningInterval = setInterval(updateDistance, 100);
 
   function generateObstacle () {
+    if (obstacles.length >= obstacleLimit) {
+      return;
+    }
+
     if (obstacleListIdx === obstacleList.length) {
       obstacleListIdx = 0;
       shuffle(obstacleList);
@@ -207,6 +214,11 @@ function play () {
   }
 
   const cisRunnersInterval = setInterval(generateCisRunner, 1000);
+  const obstaclesInterval = setInterval(() => {
+    if (Math.random() > obstacleChance) {
+      generateObstacle();
+    }
+  }, obstacleTime);
   generateObstacle();
 
   function generateBathroomSign () {
@@ -226,6 +238,7 @@ function play () {
   }
 
   const bathroomSignsInterval = setInterval(generateBathroomSign, 5000);
+  generateBathroomSign();
 
   let loadedSprites = 0;
   startingSprites.forEach((sprite) => {
@@ -301,6 +314,7 @@ function play () {
     // TODO: remove jump and slide listeners; those will stack up on replay
     clearInterval(runningInterval);
     clearInterval(actionInterval);
+    clearInterval(obstaclesInterval);
     clearInterval(cisRunnersInterval);
     clearInterval(bathroomSignsInterval);
     clearTimeout(actionTimeout);
@@ -316,21 +330,30 @@ function play () {
   let slideListener;
 
   function setUpInGameButtons () {
-    buttons.innerHTML = '<div class="button jump"></div><div class="button slide"></div>';
+    if (mobile) {
+      buttons.innerHTML = '<div class="button jump"><div class="button-text">TAP TO JUMP</div></div><div class="button slide"><div class="button-text">TAP TO SLIDE</div></div>';
+    } else {
+      buttons.innerHTML = '<div class="button jump"><div class="button-text">PRESS UP TO TO JUMP</div></div><div class="button slide"><div class="button-text">PRESS DOWN TO SLIDE</div></div>';
+    }
     const jumpButton = buttons.querySelector('.jump');
     const slideButton = buttons.querySelector('.slide');
     const buttonHeight = 'calc(50% - ' + (groundPx / 2) + 'px)';
     jumpButton.style.height = buttonHeight;
     slideButton.style.height = buttonHeight;
 
-    jumpListener = jumpButton.addEventListener('touchend', jump);
-    slideListener = slideButton.addEventListener('touchend', slide);
-    if (!mobile) {
+    if (mobile) {
+      jumpListener = jumpButton.addEventListener('touchend', jump);
+      slideListener = slideButton.addEventListener('touchend', slide);
+    } else {
       document.addEventListener('keydown', (e) => {
-        jump();
+        if (e.keyCode === 38) {
+          jump();
+        }
       });
       document.addEventListener('keydown', (e) => {
-        slide();
+        if (e.keyCode === 40) {
+          slide();
+        }
       });
     }
   }
