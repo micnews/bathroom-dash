@@ -37,7 +37,6 @@ const playListener = function (e) {
     return;
   }
 
-
   playButton.removeEventListener('click', playListener);
   window.removeEventListener('resize', resetPlayable);
   window.removeEventListener('orientationchange', resetPlayable);
