@@ -20,6 +20,7 @@ const ground = groundPx * (canvas.height / parseInt(window.getComputedStyle(canv
 const cisChance = 0.5;
 const obstacleChance = 0.7;
 const obstacleTime = 1250;
+const obstacleTimeVariance = 250;
 const obstacleMinimum = 2;
 const obstacleLimit = 3;
 
@@ -297,7 +298,7 @@ function play (startTime = 0) {
     // TODO: remove jump and slide listeners; those will stack up on replay
     clearInterval(runningInterval);
     clearInterval(actionInterval);
-    clearInterval(obstaclesInterval);
+    clearTimeout(obstaclesTimeout);
     clearInterval(cisRunnersInterval);
     clearInterval(bathroomSignsInterval);
     clearTimeout(actionTimeout);
@@ -362,15 +363,24 @@ function play (startTime = 0) {
 
   lockScroll();
 
+  function startObstacleTime () {
+    const newObstacleTime = obstacleTime + ((Math.random() - 0.5) * obstacleTimeVariance);
+    obstaclesTimeout = setTimeout(() => {
+      clearTimeout(obstaclesTimeout);
+      generateObstacle();
+      startObstacleTime();
+    }, newObstacleTime);
+  }
+
   let runningInterval;
   let bathroomSignsInterval;
   let cisRunnersInterval;
-  let obstaclesInterval;
+  let obstaclesTimeout;
   setTimeout(function () {
     runningInterval = setInterval(updateDistance, 100);
     bathroomSignsInterval = setInterval(generateBathroomSign, 5000);
     cisRunnersInterval = setInterval(generateCisRunner, 1000);
-    obstaclesInterval = setInterval(generateObstacle, obstacleTime);
+    startObstacleTime();
     animationLoop();
   }, startTime);
 }
