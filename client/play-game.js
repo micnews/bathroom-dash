@@ -1,5 +1,7 @@
 import createSprite from './create-sprite';
 
+const mobile = true;
+
 const main = document.querySelector('.main');
 const buttons = main.querySelector('.buttons');
 const overlay = main.querySelector('.overlay');
@@ -191,8 +193,9 @@ function play () {
     jumpButton.style.height = buttonHeight;
     slideButton.style.height = buttonHeight;
 
-    jumpButton.addEventListener('click', jump);
-    slideButton.addEventListener('click', slide);
+    const eventType = mobile ? 'touchstart' : 'click';
+    jumpButton.addEventListener(eventType, jump);
+    slideButton.addEventListener(eventType, slide);
   }
 
   function setUpInGameOverlay () {
