@@ -16,6 +16,7 @@ const overlay = main.querySelector('.overlay');
 const buttons = main.querySelector('.buttons');
 
 window.addEventListener('resize', resetPlayable);
+window.addEventListener('orientationchange', resetPlayable);
 
 const playButton = overlay.querySelector('.play-button');
 
@@ -38,6 +39,7 @@ const playListener = function (e) {
 
   playButton.removeEventListener('click', playListener);
   window.removeEventListener('resize', resetPlayable);
+  window.removeEventListener('orientationchange', resetPlayable);
   overlay.classList.remove('starting');
   buttons.classList.remove('shown');
   playGame();
