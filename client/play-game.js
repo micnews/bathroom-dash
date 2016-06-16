@@ -20,6 +20,7 @@ const ground = groundPx * (canvas.height / parseInt(window.getComputedStyle(canv
 const cisChance = 0.5;
 const obstacleChance = 0.7;
 const obstacleTime = 1250;
+const obstacleMinimum = 2;
 const obstacleLimit = 3;
 
 let actionInterval;
@@ -147,7 +148,7 @@ function play (startTime = 0) {
       obstacleListIdx = 0;
       shuffle(obstacleList);
     }
-    if (obstacleChance > Math.random() || obstacles.length === 0) {
+    if (obstacleChance > Math.random() || obstacles.length < obstacleMinimum) {
       const obstacleData = obstacleList[obstacleListIdx];
       obstacleListIdx += 1;
       const obstacleWidth = obstacleData.image.width || obstacleData.image.imageWidth;
