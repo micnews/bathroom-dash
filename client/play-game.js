@@ -145,7 +145,9 @@ function play () {
     });
   });
 
-  function jump () {
+  function jump (e) {
+    e.preventDefault();
+
     if (transRunner.actioning) {
       return;
     }
@@ -169,6 +171,7 @@ function play () {
   }
 
   function die () {
+    // TODO: remove jump and slide listeners; those will stack up on replay
     clearInterval(runningInterval);
     clearInterval(actionInterval);
     clearInterval(cisRunnersInterval);
@@ -185,6 +188,9 @@ function play () {
 
   }
 
+  let jumpListener;
+  let slideListener;
+
   function setUpInGameButtons () {
     buttons.innerHTML = '<div class="button jump"></div><div class="button slide"></div>';
     const jumpButton = buttons.querySelector('.jump');
@@ -193,9 +199,16 @@ function play () {
     jumpButton.style.height = buttonHeight;
     slideButton.style.height = buttonHeight;
 
-    const eventType = mobile ? 'touchend' : 'click';
-    jumpButton.addEventListener(eventType, jump);
-    slideButton.addEventListener(eventType, slide);
+    jumpListener = jumpButton.addEventListener('touchend', jump);
+    slideListener = slideButton.addEventListener('touchend', slide);
+    if (!mobile) {
+      document.addEventListener('keydown', (e) => {
+        jump();
+      });
+      document.addEventListener('keydown', (e) => {
+        slide();
+      });
+    }
   }
 
   function setUpInGameOverlay () {
