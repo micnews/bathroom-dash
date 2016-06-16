@@ -312,14 +312,6 @@ function play () {
     }, play);
   }
 
-  function setUpMenuButtons () {
-
-  }
-
-  function setUpMenuOverlay () {
-
-  }
-
   let jumpListener;
   let slideListener;
 
