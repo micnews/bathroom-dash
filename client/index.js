@@ -42,7 +42,7 @@ const playListener = function (e) {
   window.removeEventListener('orientationchange', resetPlayable);
   overlay.classList.remove('starting');
   buttons.classList.remove('shown');
-  playGame();
+  playGame(1200);
 };
 
 playButton.addEventListener('click', playListener);

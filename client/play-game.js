@@ -38,7 +38,7 @@ function shuffle (arr) {
 
 shuffle(obstacleList);
 
-function play () {
+function play (startTime = 0) {
   const transRunningImage = new Image();
   transRunningImage.src = '/images/trans/running.png';
   let transRunner;
@@ -138,47 +138,47 @@ function play () {
     }
   }
 
-  const runningInterval = setInterval(updateDistance, 100);
-
   function generateObstacle () {
     if (obstacles.length >= obstacleLimit) {
       return;
     }
 
-    if (obstacleListIdx === obstacleList.length || obstacleList.length === 0) {
+    if (obstacleListIdx === obstacleList.length) {
       obstacleListIdx = 0;
       shuffle(obstacleList);
     }
-    const obstacleData = obstacleList[obstacleListIdx];
-    obstacleListIdx += 1;
-    const obstacleWidth = obstacleData.image.width || obstacleData.image.imageWidth;
-    const obstacleHeight = obstacleData.image.height || obstacleData.image.imageHeight;
-    const obstacleImage = new Image();
-    obstacleImage.src = obstacleData.image.src;
-    const obstacle = createSprite({
-      context,
-      imageWidth: obstacleData.image.imageWidth,
-      imageHeight: obstacleData.image.imageHeight,
-      width: obstacleWidth,
-      hidth: obstacleHeight,
-      numberOfFrames: obstacleData.image.numberOfFrames || 1,
-      image: obstacleImage,
-      ticksPerFrame: obstacleData.image.speed || 5,
-      loop: obstacleData.image.loop || true,
-      xPos: canvas.width + obstacleWidth,
-      yPos: obstacleData.image.position === 'bottom' ? canvas.height - obstacleHeight - ground : 15,
-      hitboxTop: obstacleData.image.hitboxTop,
-      hitboxBottom: obstacleData.image.hitboxBottom,
-      hitboxLeft: obstacleData.image.hitboxLeft,
-      hitboxRight: obstacleData.image.hitboxRight
-    });
-    const props = ['name', 'description', 'article', 'cta'];
-    props.forEach((prop) => {
-      obstacle[prop] = obstacleData[prop];
-    });
-    obstacle.position = obstacleData.image.position;
+    if (Math.random() > obstacleChance || obstacles.length === 0) {
+      const obstacleData = obstacleList[obstacleListIdx];
+      obstacleListIdx += 1;
+      const obstacleWidth = obstacleData.image.width || obstacleData.image.imageWidth;
+      const obstacleHeight = obstacleData.image.height || obstacleData.image.imageHeight;
+      const obstacleImage = new Image();
+      obstacleImage.src = obstacleData.image.src;
+      const obstacle = createSprite({
+        context,
+        imageWidth: obstacleData.image.imageWidth,
+        imageHeight: obstacleData.image.imageHeight,
+        width: obstacleWidth,
+        hidth: obstacleHeight,
+        numberOfFrames: obstacleData.image.numberOfFrames || 1,
+        image: obstacleImage,
+        ticksPerFrame: obstacleData.image.speed || 5,
+        loop: obstacleData.image.loop || true,
+        xPos: canvas.width + obstacleWidth,
+        yPos: obstacleData.image.position === 'bottom' ? canvas.height - obstacleHeight - ground : 15,
+        hitboxTop: obstacleData.image.hitboxTop,
+        hitboxBottom: obstacleData.image.hitboxBottom,
+        hitboxLeft: obstacleData.image.hitboxLeft,
+        hitboxRight: obstacleData.image.hitboxRight
+      });
+      const props = ['name', 'description', 'article', 'cta'];
+      props.forEach((prop) => {
+        obstacle[prop] = obstacleData[prop];
+      });
+      obstacle.position = obstacleData.image.position;
 
-    obstacles.push(obstacle);
+      obstacles.push(obstacle);
+    }
   }
 
   function generateCisRunner () {
@@ -213,12 +213,6 @@ function play () {
     }
   }
 
-  const cisRunnersInterval = setInterval(generateCisRunner, 1000);
-  const obstaclesInterval = setInterval(() => {
-    if (Math.random() > obstacleChance) {
-      generateObstacle();
-    }
-  }, obstacleTime);
   generateObstacle();
 
   function generateBathroomSign () {
@@ -236,19 +230,7 @@ function play () {
 
     bathroomSigns.push(bathroomSign);
   }
-
-  const bathroomSignsInterval = setInterval(generateBathroomSign, 5000);
   generateBathroomSign();
-
-  let loadedSprites = 0;
-  startingSprites.forEach((sprite) => {
-    sprite.image.addEventListener('load', () => {
-      loadedSprites++;
-      if (loadedSprites === startingSprites.length) {
-        animationLoop();
-      }
-    });
-  });
 
   function jump (e) {
     if (e) {
@@ -378,6 +360,18 @@ function play () {
   }
 
   lockScroll();
+
+  let runningInterval;
+  let bathroomSignsInterval;
+  let cisRunnersInterval;
+  let obstaclesInterval;
+  setTimeout(function () {
+    runningInterval = setInterval(updateDistance, 100);
+    bathroomSignsInterval = setInterval(generateBathroomSign, 5000);
+    cisRunnersInterval = setInterval(generateCisRunner, 1000);
+    obstaclesInterval = setInterval(generateObstacle, obstacleTime);
+    animationLoop();
+  }, startTime);
 }
 
 export default play;
