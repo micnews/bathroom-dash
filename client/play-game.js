@@ -18,8 +18,8 @@ const jumpHeight = 450;
 const groundPx = 125;
 const ground = groundPx * (canvas.height / parseInt(window.getComputedStyle(canvas).height, 10));
 const cisChance = 0.5;
-const obstacleChance = 0.3;
-const obstacleTime = 1500;
+const obstacleChance = 0.7;
+const obstacleTime = 1250;
 const obstacleLimit = 3;
 
 let actionInterval;
@@ -132,6 +132,7 @@ function play (startTime = 0) {
     var newLevel = getLevel();
     if (newLevel > currentLevel) {
       nextLevel();
+      generateObstacle();
     }
   }
 
@@ -146,7 +147,7 @@ function play (startTime = 0) {
       obstacleListIdx = 0;
       shuffle(obstacleList);
     }
-    if (Math.random() > obstacleChance || obstacles.length === 0) {
+    if (obstacleChance > Math.random() || obstacles.length === 0) {
       const obstacleData = obstacleList[obstacleListIdx];
       obstacleListIdx += 1;
       const obstacleWidth = obstacleData.image.width || obstacleData.image.imageWidth;
