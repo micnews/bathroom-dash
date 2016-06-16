@@ -145,7 +145,7 @@ function play () {
       return;
     }
 
-    if (obstacleListIdx === obstacleList.length) {
+    if (obstacleListIdx === obstacleList.length || obstacleList.length === 0) {
       obstacleListIdx = 0;
       shuffle(obstacleList);
     }
@@ -289,7 +289,7 @@ function play () {
     let activeFrame = 0;
 
     transRunner.frameIndex = activeFrame;
-    transRunner.imageWidth = 284;
+    transRunner.imageWidth = 322;
     transRunner.imageHeight = 323;
     transRunner.width += 50;
     transRunner.image = transSlidingImage;
