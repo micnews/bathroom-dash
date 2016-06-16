@@ -36,8 +36,6 @@ function shuffle (arr) {
   return arr;
 }
 
-shuffle(obstacleList);
-
 function play (startTime = 0) {
   const transRunningImage = new Image();
   transRunningImage.src = '/images/trans/running.png';
@@ -67,7 +65,6 @@ function play (startTime = 0) {
   let obstacleListIdx = 0;
   let cisRunners = [];
   let bathroomSigns = [];
-  let startingSprites = [transRunner].concat(obstacles).concat(cisRunners).concat(bathroomSigns);
   let distance = 0;
   let obstacleCount = 0;
   function getLevel () {
@@ -138,6 +135,8 @@ function play (startTime = 0) {
     }
   }
 
+  // shuffle(obstacleList);
+
   function generateObstacle () {
     if (obstacles.length >= obstacleLimit) {
       return;
@@ -148,7 +147,7 @@ function play (startTime = 0) {
       shuffle(obstacleList);
     }
     if (Math.random() > obstacleChance || obstacles.length === 0) {
-      const obstacleData = obstacleList[obstacleListIdx];
+      const obstacleData = obstacleList[5];
       obstacleListIdx += 1;
       const obstacleWidth = obstacleData.image.width || obstacleData.image.imageWidth;
       const obstacleHeight = obstacleData.image.height || obstacleData.image.imageHeight;
