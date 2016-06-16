@@ -21,7 +21,7 @@ window.addEventListener('orientationchange', resetPlayable);
 const playButton = overlay.querySelector('.play-button');
 
 function resetPlayable () {
-  playable = (mobile && width > height) || !mobile;
+  playable = (mobile && (window.orientation === 90 || window.orientation === -90)) || !mobile;
   if (playable) {
     playButton.querySelector('.copy').innerHTML = 'Play';
   } else {
