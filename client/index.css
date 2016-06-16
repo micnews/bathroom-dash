@@ -65,3 +65,80 @@
   pointer-events: none;
   opacity: 0.3;
 }
+
+@keyframes rise {
+  from {
+    transform: translateY(calc(100% + 25px));
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.game_over {
+  background: #FED232;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  animation: 0.4s ease 1 rise;
+}
+
+.game_over__image, .game_over__copy {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.game_over__image {
+  -webkit-filter: brightness(0);
+  filter: brightness(0);
+  width: 40%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: auto 55%;
+}
+
+.game_over__copy {
+  width: 55%;
+  top: -22px;
+  position: relative;
+}
+
+.game_over__score {
+  font-size: 55px;
+  letter-spacing: -2px;
+  text-transform: uppercase;
+  font-weight: 900;
+  margin-bottom: 20px;
+}
+
+.game_over__description, .game_over__ctas-header {
+  font-size: 22px;
+  letter-spacing: -0.5px;
+  margin-bottom: 20px;
+}
+
+.game_over__description__bold, .game_over__ctas-header {
+  display: inline-block;
+  font-weight: 700;
+}
+
+.game_over__ctas__article, .game_over__ctas__action, .game_over__ctas__play-again {
+  display: inline-block;
+  padding: 10px 15px;
+  border-radius: 50px;
+  line-height: 18px;
+  height: 20px;
+  border: 2px solid black;
+  cursor: pointer;
+}
+
+.game_over__ctas__article, .game_over__ctas__action {
+  background: black;
+  margin-right: 10px;
+}
+
+.game_over__ctas__article a, .game_over__ctas__action a {
+  color: white;
+  text-decoration: none;
+}

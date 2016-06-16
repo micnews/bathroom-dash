@@ -2,11 +2,13 @@
   {
     "name": "Verbal abuse while riding public transportation",
     "image": {
-      "src": "/images/obstacles/verbal-abuse.png"
+      "src": "/images/obstacles/verbal-abuse.png",
+      "position": "top",
+      "imageWidth": 105,
+      "imageHeight": 570
     },
-    "position": "bottom",
-    "description": "Pearl Love, a trans woman in NYC, recorded and uploaded a woman berating her on the subway, claiming the site of Love is indecent and offensive for her child to see.",
-    "story": "https://mic.com/articles/142537",
+    "description": "Pearl Love, a trans woman in NYC, recorded and uploaded a woman berating her on the subway, claiming the sight of Love was indecent and offensive for her child to see.",
+    "article": "https://mic.com/articles/142537",
     "cta": {
       "type": "petition",
       "link": "https://www.change.org/p/suffolk-county-virginia-school-system-stop-harrassment-and-bullying-of-trans-gender-non-conforming-kids"
@@ -15,24 +17,28 @@
   {
     "name": "Wearing boxer briefs",
     "image": {
-      "src": "/images/obstacles/briefs.png"
+      "src": "/images/obstacles/briefs.png",
+      "position": "top",
+      "imageWidth": 92,
+      "imageHeight": 695
     },
-    "position": "bottom",
-    "description": "Trans beauty queen Jai Dará Latto lost her crown after footage came out of her wearing boxer briefs around her house. The judge rescinded her title claiming Latto is not a \"full-time woman\" because she wears boxers.",
-    "story": "https://mic.com/articles/135849",
+    "description": "Trans beauty queen Jai Dará Latto lost her crown after footage was released of her wearing boxer briefs around her house. The judge rescinded her title, claiming Latto is not a \"full-time woman\" because she wears boxers.",
+    "article": "https://mic.com/articles/135849",
     "cta": {
       "type": "fund",
       "link": "https://www.gofundme.com/armoragainstwonder"
     }
   },
   {
-    "name": "Dysfunction in hospital/doctors office",
+    "name": "Dysfunction in medical care",
     "image": {
-      "src": "/images/obstacles/doctor.png"
+      "src": "/images/obstacles/doctor.png",
+      "position": "bottom",
+      "imageWidth": 92,
+      "imageHeight": 402
     },
-    "position": "bottom",
-    "description": "Trans woman and activists Alesha died in a hospital in Peshawar, Pakistan after doctors failed to help her because they could not decide whether to treat her in the male or female ward.",
-    "story": "https://mic.com/articles/144405",
+    "description": "Trans woman and activist Alesha died in a hospital in Peshawar, Pakistan after doctors failed to help her because they could not decide whether to treat her in the male or female ward.",
+    "article": "https://mic.com/articles/144405",
     "cta": {
       "type": "petition",
       "link": "https://www.change.org/p/stop-trans-health-care-discrimination-a-demand-to-all-major-health-insurance-providers-in-the-united-states"
@@ -41,11 +47,13 @@
   {
     "name": "Airbnb host rejects trans tenants",
     "image": {
-      "src": "/images/obstacles/bed.png"
+      "src": "/images/obstacles/bed.png",
+      "position": "bottom",
+      "imageWidth": 151,
+      "imageHeight": 407
     },
-    "position": "bottom",
     "description": "An Airbnb host rejected Shadi Petosky, a trans woman who applied to stay her home, because the host didn’t want her son \"to feel discomfort in his own home.\"",
-    "story": "https://mic.com/articles/145418",
+    "article": "https://mic.com/articles/145418",
     "cta": {
       "type": "fund",
       "link": "https://www.gofundme.com/26guqkn8"
@@ -54,11 +62,13 @@
   {
     "name": "Governor Pat McCrory and HB2",
     "image": {
-      "src": "/images/obstacles/nc.png"
+      "src": "/images/obstacles/nc.png",
+      "position": "top",
+      "imageWidth": 157,
+      "imageHeight": 698
     },
-    "position": "bottom",
     "description": "In March, McCrory passed House Bill 2, a policy that bans individuals in North Carolina from using public bathrooms that do not correspond to their biological sex. HB2 also permits the NC state government to prevent cities from passing non-discrimination legislation.",
-    "story": "http://edition.cnn.com/2016/03/23/politics/north-carolina-gender-bathrooms-bill/",
+    "article": "http://edition.cnn.com/2016/03/23/politics/north-carolina-gender-bathrooms-bill/",
     "cta": {
       "type": "petition",
       "link": "https://www.change.org/p/north-carolina-state-senate-allow-the-transgender-community-go-utilize-restrooms-that-align-with-their-gender-identity"
@@ -67,11 +77,13 @@
   {
     "name": "Bathroom bombing during Target transgender boycott",
     "image": {
-      "src": "/images/obstacles/bomb.png"
+      "src": "/images/obstacles/bomb.png",
+      "position": "top",
+      "imageWidth": 140,
+      "imageHeight": 690
     },
-    "position": "bottom",
-    "description": "In Illinois.",
-    "story": "https://mic.com/articles/145804",
+    "description": "When Target announced their trans-inclusive bathroom policy, it sparked protests and a petition with over 1 million signatures to boycott Target. In Illinois, a small bomb exploded in a women’s bathroom. Its connection to the bathroom policy remains unconfirmed.",
+    "article": "https://mic.com/articles/145804",
     "cta": {
       "type": "petition",
       "link": "http://petitions.moveon.org/sign/support-target-in-its"
@@ -80,14 +92,76 @@
   {
     "name": "Fired for being trans",
     "image": {
-      "src": "/images/obstacles/office.png"
+      "src": "/images/obstacles/office.png",
+      "position": "bottom",
+      "imageWidth": 118,
+      "imageHeight": 381
     },
-    "position": "bottom",
     "description": "Up to 47% of transgender people report that they've been unfairly fired or denied employment based on how they identify. Up to 76% report workplace harassment, and trans individuals are twice as likely to be unemployed.",
-    "story": "https://mic.com/articles/136452",
+    "article": "https://mic.com/articles/136452",
     "cta": {
       "type": "petition",
       "link": "https://www.change.org/p/hillary-clinton-end-transgender-employment-discrimination"
+    }
+  },
+  {
+    "name": "Assault in bathroom",
+    "image": {
+      "src": "/images/obstacles/hand.png",
+      "position": "bottom",
+      "imageWidth": 113,
+      "imageHeight": 401
+    },
+    "description": "22-year-old Aimee Toms was accosted in a women’s bathroom in Walmart this May. Why? Because a customer thought she was a trans woman. In reality, Toms is cisgender and had short hair because she had recently donated her locks to cancer victims.",
+    "article": "https://mic.com/articles/143607",
+    "cta": {
+      "type": "petition",
+      "link": "https://www.change.org/p/northwestern-university-create-more-gender-neutral-bathrooms-on-campus-for-transgender-students"
+    }
+  },
+  {
+    "name": "Assault in bathroom",
+    "image": {
+      "src": "/images/obstacles/hand.png",
+      "position": "bottom",
+      "imageWidth": 113,
+      "imageHeight": 401
+    },
+    "description": "Shon Yves, 24, is a stylist in Virginia who is \"still working out\" his gender identity. He described an incident in a men’s bathroom in which a white man said, \"I thought this was the men's room\" and \"Sure wish this was North Carolina\", referring to HB2. He has also been physically assaulted numerous times.",
+    "article": "https://mic.com/articles/141142",
+    "cta": {
+      "type": "petition",
+      "link": "https://www.change.org/p/tim-rahilly-gender-inclusive-washrooms"
+    }
+  },
+  {
+    "name": "Assault in bathroom",
+    "image": {
+      "src": "/images/obstacles/hand.png",
+      "position": "bottom",
+      "imageWidth": 113,
+      "imageHeight": 401
+    },
+    "description": "32-year-old transgender woman Ebony Belcher was assaulted and kicked out of a supermarket in Washington, DC after she tried to use the woman’s bathroom. \"She opened the door and came in and started calling me derogatory names,\" Belcher told the Daily Beast. She recounted that the guard said, \"You guys cannot keep coming in here and using our women’s restroom. They did not pass the law yet.\"",
+    "article": "http://www.thedailybeast.com/articles/2016/05/19/d-c-security-guard-assaulted-trans-woman-for-using-bathroom.html",
+    "cta": {
+      "type": "petition",
+      "link": "https://www.change.org/p/ny-state-pass-genda-help-end-discrimination-against-transgender-individuals"
+    }
+  },
+  {
+    "name": "Threat of violent attack in bathroom",
+    "image": {
+      "src": "/images/obstacles/gun.png",
+      "position": "bottom",
+      "imageWidth": 85,
+      "imageHeight": 390
+    },
+    "description": "The intense right-wing outrage over Target’s bathroom policy has veered into the realm of physical violence. \"I'm taking a Glock .45 to the ladies room. It identifies as my bodyguard,\" Anita Starver, a lawyer, tweeted. In Texas, a candidate for sheriff warned that he would \"beat the hell out of a transgender person who tried to piss in a bathroom where [his] daughter was peeing.\"",
+    "article": "http://www.advocate.com/transgender/2016/4/25/right-wingers-pledge-carry-guns-bathroom-fend-trans-folks",
+    "cta": {
+      "type": "petition",
+      "link": "https://www.change.org/p/ny-state-pass-genda-help-end-discrimination-against-transgender-individuals"
     }
   }
 ]

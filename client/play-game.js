@@ -1,4 +1,6 @@
 import createSprite from './create-sprite';
+import gameOver from './game-over';
+import obstacleList from './obstacles.json';
 
 const mobile = true;
 
@@ -10,7 +12,7 @@ const context = canvas.getContext('2d');
 
 const initialSpeed = 10;
 const speedCoefficient = 5;
-const jumpTime = 12500;
+const actionTime = 12500;
 const jumpHeight = 450;
 const groundPx = 125;
 const ground = groundPx * (canvas.height / parseInt(window.getComputedStyle(canvas).height, 10));
@@ -20,41 +22,50 @@ let actionInterval;
 let actionTimeout;
 let animationLoopId;
 
+function shuffle(array) {
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return array;
+}
+
+shuffle(obstacleList);
+
 function play () {
   const transRunningImage = new Image();
   transRunningImage.src = '/images/trans/running.png';
-  const transRunner = createSprite({
-    context,
-    imageWidth: 250,
-    imageHeight: 341,
-    width: 200,
-    height: 300,
-    numberOfFrames: 9,
-    image: transRunningImage,
-    ticksPerFrame: 6,
-    xPos: 50,
-    yPos: canvas.height - 300 - ground,
-    loop: true
-  });
-  transRunner.actioning = false;
+  let transRunner;
+  function resetTransRunner () {
+    transRunner = createSprite({
+      context,
+      imageWidth: 250,
+      imageHeight: 341,
+      width: 200,
+      height: 300,
+      numberOfFrames: 9,
+      image: transRunningImage,
+      ticksPerFrame: 6,
+      xPos: 50,
+      yPos: canvas.height - 300 - ground,
+      loop: true
+    });
+    transRunner.actioning = false;
+  }
+  resetTransRunner();
 
-  const barrier = createSprite({
-    context,
-    imageWidth: 250,
-    imageHeight: 341,
-    numberOfFrames: 9,
-    image: transRunningImage,
-    ticksPerFrame: 10,
-    loop: true,
-    xPos: canvas.width + 327,
-    yPos: canvas.height - 327 - ground
-  });
+  const transSlidingImage = new Image();
+  transSlidingImage.src = '/images/trans/sliding.png';
 
-  let obstacles = [barrier];
+  let obstacles = [];
+  let obstacleListIdx = 0;
   let cisRunners = [];
   let bathroomSigns = [];
   let startingSprites = [transRunner].concat(obstacles).concat(cisRunners).concat(bathroomSigns);
   let distance = 0;
+  let obstacleCount = 0;
   function getLevel () {
     return (Math.floor(distance / 100) + 1) / 2;
   }
@@ -62,15 +73,15 @@ function play () {
     return initialSpeed + (getLevel() * speedCoefficient);
   }
   let runnerY;
-  function resetRunnerY () {
+  function resetTransRunnerY () {
     runnerY = -canvas.height + transRunner.height + ground;
   }
-  resetRunnerY();
+  resetTransRunnerY();
 
   function detectCollisions () {
     for (var i = 0; i < obstacles.length; i++) {
       if (transRunner.collidingWith(obstacles[i])) {
-        return true;
+        return obstacles[i];
       }
     }
   }
@@ -94,12 +105,16 @@ function play () {
       sprite.update({ x: -getSpeed() });
       if (sprite.xPos + sprite.width < 0) {
         obstacles.splice(idx, 1);
+        obstacleCount += 1;
+        overlay.querySelector('.score').innerHTML = obstacleCount;
+        generateObstacle();
       }
     });
     transRunner.update({ y: -runnerY, absolute: true });
 
-    if (detectCollisions()) {
-      die();
+    const collidedObstacle = detectCollisions();
+    if (collidedObstacle) {
+      endGame(collidedObstacle);
       return;
     }
   }
@@ -118,10 +133,46 @@ function play () {
     if (newLevel > currentLevel) {
       nextLevel();
     }
-    overlay.querySelector('.score').innerHTML = distance;
   }
 
   const runningInterval = setInterval(updateDistance, 100);
+
+  function generateObstacle () {
+    if (obstacleListIdx === obstacleList.length) {
+      obstacleListIdx = 0;
+      shuffle(obstacleList);
+    }
+    const obstacleData = obstacleList[obstacleListIdx];
+    obstacleListIdx += 1;
+    const obstacleWidth = obstacleData.image.width || obstacleData.image.imageWidth;
+    const obstacleHeight = obstacleData.image.height || obstacleData.image.imageHeight;
+    const obstacleImage = new Image();
+    obstacleImage.src = obstacleData.image.src;
+    const obstacle = createSprite({
+      context,
+      imageWidth: obstacleData.image.imageWidth,
+      imageHeight: obstacleData.image.imageHeight,
+      width: obstacleWidth,
+      hidth: obstacleHeight,
+      numberOfFrames: obstacleData.image.numberOfFrames || 1,
+      image: obstacleImage,
+      ticksPerFrame: obstacleData.image.speed || 5,
+      loop: obstacleData.image.loop || true,
+      xPos: canvas.width + obstacleWidth,
+      yPos: obstacleData.image.position === 'bottom' ? canvas.height - obstacleHeight - ground : 15,
+      hitboxTop: obstacleData.image.hitboxTop,
+      hitboxBottom: obstacleData.image.hitboxBottom,
+      hitboxLeft: obstacleData.image.hitboxLeft,
+      hitboxRight: obstacleData.image.hitboxRight
+    });
+    const props = ['name', 'description', 'article', 'cta'];
+    props.forEach((prop) => {
+      obstacle[prop] = obstacleData[prop];
+    });
+    obstacle.position = obstacleData.image.position;
+
+    obstacles.push(obstacle);
+  }
 
   function generateCisRunner () {
     if (Math.random() >= cisChance) {
@@ -138,8 +189,8 @@ function play () {
       cisRunningImage.src = '/images/cis/running-' + gender + '.png';
       const cisRunner = createSprite({
         context,
-        imageWidth: gender === 'female' ? 250 : 223,
-        imageHeight: gender === 'female' ? 327 : 327,
+        imageWidth: 250,
+        imageHeight: 327,
         width: newWidth,
         height: newHeight,
         numberOfFrames: 9,
@@ -156,6 +207,7 @@ function play () {
   }
 
   const cisRunnersInterval = setInterval(generateCisRunner, 1000);
+  generateObstacle();
 
   function generateBathroomSign () {
     const bathroomSignImage = new Image();
@@ -186,31 +238,66 @@ function play () {
   });
 
   function jump (e) {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
 
     if (transRunner.actioning) {
       return;
     }
-    const jumpDistance = jumpTime / getSpeed();
+
+    const jumpDistance = actionTime / getSpeed();
     const startDate = new Date();
     actionInterval = setInterval(() => {
-      resetRunnerY();
+      resetTransRunnerY();
       const now = new Date();
       const time = now - startDate;
       runnerY += Math.sin(time * Math.PI / jumpDistance) * jumpHeight;
     }, 1);
     actionTimeout = setTimeout(() => {
       clearInterval(actionInterval);
-      resetRunnerY();
+      resetTransRunnerY();
       transRunner.actioning = false;
     }, jumpDistance);
     transRunner.actioning = true;
   }
 
-  function slide () {
+  function slide (e) {
+    if (e) {
+      e.preventDefault();
+    }
+
+    if (transRunner.actioning) {
+      return;
+    }
+    const slideDistance = actionTime / getSpeed();
+    const sectionLength = slideDistance / 9;
+    const startDate = new Date();
+    let activeFrame = 0;
+
+    transRunner.frameIndex = activeFrame;
+    transRunner.imageWidth = 284;
+    transRunner.imageHeight = 323;
+    transRunner.width += 50;
+    transRunner.image = transSlidingImage;
+    transRunner.ticksPerFrame = 1000;
+    transRunner.hitboxTop = 250;
+
+    actionInterval = setInterval(() => {
+      const now = new Date();
+      const time = now - startDate;
+      activeFrame = Math.floor(time / sectionLength);
+      transRunner.frameIndex = activeFrame;
+    }, 1);
+    actionTimeout = setTimeout(() => {
+      clearInterval(actionInterval);
+      resetTransRunner();
+      transRunner.actioning = false;
+    }, slideDistance);
+    transRunner.actioning = true;
   }
 
-  function die () {
+  function endGame (obstacle) {
     // TODO: remove jump and slide listeners; those will stack up on replay
     clearInterval(runningInterval);
     clearInterval(actionInterval);
@@ -218,7 +305,11 @@ function play () {
     clearInterval(bathroomSignsInterval);
     clearTimeout(actionTimeout);
     window.cancelAnimationFrame(animationLoopId);
-    play();
+
+    gameOver({
+      obstacle: obstacle,
+      score: obstacleCount
+    }, play);
   }
 
   function setUpMenuButtons () {
@@ -253,7 +344,7 @@ function play () {
   }
 
   function setUpInGameOverlay () {
-    overlay.innerHTML = '<div class="frame"></div><div class="score"></div>';
+    overlay.innerHTML = '<div class="frame"></div><div class="score">0</div>';
     const frame = overlay.querySelector('.frame');
     frame.style.height = 'calc(100% - ' + groundPx + 'px - 10px)';
     const score = overlay.querySelector('.score');

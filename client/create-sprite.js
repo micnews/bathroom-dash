@@ -1,19 +1,25 @@
 const smaller = 30;
 
-export default ({ context, height, width, imageHeight, imageWidth, xPos = 0, yPos = 0, image, loop, numberOfFrames = 1, ticksPerFrame = 1 }) => {
+export default ({ context, height, width, imageHeight, imageWidth, xPos = 0, yPos = 0,
+  image, loop, numberOfFrames = 1, ticksPerFrame = 1, frameIndex = 0,
+  hitboxTop = smaller, hitboxBottom = smaller, hitboxLeft = smaller, hitboxRight = smaller }) => {
   const spriteObject = {
     context: context,
     imageWidth,
     imageHeight,
     width: width || imageWidth,
     height: height || imageHeight,
+    hitboxTop,
+    hitboxBottom,
+    hitboxLeft,
+    hitboxRight,
     xPos,
     yPos,
     ticksPerFrame,
     numberOfFrames,
     image: image,
     loop: loop,
-    frameIndex: 0,
+    frameIndex,
     tickCount: 0,
     update ({ x, y, absolute = false }) {
       if (x) {
@@ -49,10 +55,10 @@ export default ({ context, height, width, imageHeight, imageWidth, xPos = 0, yPo
     },
     getRect () {
       return {
-        top: spriteObject.yPos + smaller,
-        bottom: spriteObject.yPos + spriteObject.height - smaller,
-        left: spriteObject.xPos + smaller,
-        right: spriteObject.xPos + spriteObject.width - smaller
+        top: spriteObject.yPos + spriteObject.hitboxTop,
+        bottom: spriteObject.yPos + spriteObject.height - spriteObject.hitboxBottom,
+        left: spriteObject.xPos + spriteObject.hitboxLeft,
+        right: spriteObject.xPos + spriteObject.width - spriteObject.hitboxRight
       };
     },
     collidingWith (otherSprite) {
