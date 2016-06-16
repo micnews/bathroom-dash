@@ -1,5 +1,6 @@
-import attachFastClick from 'fastclick';
 import createSprite from './create-sprite';
+
+const mobile = true;
 
 const main = document.querySelector('.main');
 const buttons = main.querySelector('.buttons');
@@ -20,8 +21,6 @@ let actionTimeout;
 let animationLoopId;
 
 function play () {
-  attachFastClick(document.body);
-
   const transRunningImage = new Image();
   transRunningImage.src = '/images/trans/running.png';
   const transRunner = createSprite({
@@ -194,7 +193,7 @@ function play () {
     jumpButton.style.height = buttonHeight;
     slideButton.style.height = buttonHeight;
 
-    const eventType = 'click';
+    const eventType = mobile ? 'touchend' : 'click';
     jumpButton.addEventListener(eventType, jump);
     slideButton.addEventListener(eventType, slide);
   }
