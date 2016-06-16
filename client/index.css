@@ -55,7 +55,7 @@
 }
 
 .texture {
-  background-image: url('/images/texture.png');
+  background-image: url('/images/misc/texture.png');
   background-repeat: repeat;
   height: 100%;
   width: 100%;
