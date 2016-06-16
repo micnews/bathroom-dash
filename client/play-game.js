@@ -134,7 +134,6 @@ function play (startTime = 0) {
     var newLevel = getLevel();
     if (newLevel > currentLevel) {
       nextLevel();
-      generateObstacle();
     }
   }
 
