@@ -135,7 +135,7 @@ function play (startTime = 0) {
     }
   }
 
-  // shuffle(obstacleList);
+  shuffle(obstacleList);
 
   function generateObstacle () {
     if (obstacles.length >= obstacleLimit) {
@@ -147,7 +147,7 @@ function play (startTime = 0) {
       shuffle(obstacleList);
     }
     if (Math.random() > obstacleChance || obstacles.length === 0) {
-      const obstacleData = obstacleList[5];
+      const obstacleData = obstacleList[obstacleListIdx];
       obstacleListIdx += 1;
       const obstacleWidth = obstacleData.image.width || obstacleData.image.imageWidth;
       const obstacleHeight = obstacleData.image.height || obstacleData.image.imageHeight;
